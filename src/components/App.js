@@ -1,7 +1,27 @@
-import "../styles/App.scss";
+import '../styles/App.scss';
+import { useState } from 'react';
 
 function App() {
-  const counter=0;
+  //Variables de estado
+  const [userLetter, setUserLetter] = useState('');
+  const handleInput = (ev) => {
+    ev.preventDefault();
+  };
+  //funciones que necesitamos 'https://random-words-api.vercel.app/word'
+  
+const handleClick = () => {
+  fetch(`https://random-words-api.vercel.app/word`)
+  .then((response) => response.json())
+  .then((data) => {
+  console.log(data[0].word);
+  console.log(data[0].word.length);
+  const info = data;
+  });
+
+}
+
+  
+
   return (
     <div className="App">
       <div className="page">
@@ -35,11 +55,13 @@ function App() {
                 <li className="letter">x</li>
               </ul>
             </div>
+            <button onClick={handleClick} >Empezar </button>
             <form className="form">
               <label className="title" htmlFor="last-letter">
                 Escribe una letra:
               </label>
               <input
+                onKeyUp={handleInput}
                 autoComplete="off"
                 className="form__input"
                 maxLength="1"
