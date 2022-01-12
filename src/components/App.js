@@ -1,6 +1,7 @@
 import "../styles/App.scss";
 
 function App() {
+  const counter=0;
   return (
     <div className="App">
       <div className="page">
