@@ -3,6 +3,17 @@ import { useState } from 'react';
 
 function App() {
   //Variables de estado
+  const [numberOfErrors, setNumberOfErrors] = useState(0);
+  const handleClickIncrement =(ev)=>{
+    ev.preventDefault();
+
+    setNumberOfErrors(numberOfErrors + 1);
+    console.log(numberOfErrors);
+  }
+
+
+
+
   const [userLetter, setUserLetter] = useState('');
   const handleInput = (ev) => {
     ev.preventDefault();
@@ -16,6 +27,12 @@ const handleClick = () => {
   console.log(data[0].word);
   console.log(data[0].word.length);
   const info = data;
+  /*
+  for (let index = 0 ; index< info.word.length; index ++){
+console.log(info.word.length);
+
+  }*/
+  
   });
 
 }
@@ -56,6 +73,7 @@ const handleClick = () => {
               </ul>
             </div>
             <button onClick={handleClick} >Empezar </button>
+            <button onClick={handleClickIncrement} >Incrementar</button>
             <form className="form">
               <label className="title" htmlFor="last-letter">
                 Escribe una letra:
@@ -71,7 +89,7 @@ const handleClick = () => {
               />
             </form>
           </section>
-          <section className="dummy error-5">
+          <section className={'dummy error-' + numberOfErrors}>
             <span className="error-13 eye"></span>
             <span className="error-12 eye"></span>
             <span className="error-11 line"></span>
