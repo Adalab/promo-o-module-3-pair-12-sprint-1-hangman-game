@@ -1,43 +1,48 @@
-import '../styles/App.scss';
-import { useState } from 'react';
+import "../styles/App.scss";
+import { useState } from "react";
 
 function App() {
   //Variables de estado
   const [numberOfErrors, setNumberOfErrors] = useState(0);
-  const handleClickIncrement =(ev)=>{
+  const handleClickIncrement = (ev) => {
     ev.preventDefault();
 
     setNumberOfErrors(numberOfErrors + 1);
     console.log(numberOfErrors);
-  }
-
-
-
-
-  const [userLetter, setUserLetter] = useState('');
-  const handleInput = (ev) => {
-    ev.preventDefault();
   };
+  const wordToGuess = [katakroker];
+  const [lastLetter, setLastLetter] = useState("");
+
+  const handleInput = (ev) => {
+    const patternSpanish =
+      /^[A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ]$/;
+    const letterToCompare = ev.currentTarget.value;
+    if (letterToCompare.match(patternSpanish)) {
+      setLastLetter(ev.currentTarget.value);
+    }
+    if (letterToCompare.find(wordToGuess)) {
+      console.log("está en la palabra");
+    } else {
+      console.log("no está en la palabra");
+    }
+  };
+
   //funciones que necesitamos 'https://random-words-api.vercel.app/word'
-  
-const handleClick = () => {
-  fetch(`https://random-words-api.vercel.app/word`)
-  .then((response) => response.json())
-  .then((data) => {
-  console.log(data[0].word);
-  console.log(data[0].word.length);
-  const info = data;
-  /*
+
+  const handleClick = () => {
+    fetch(`https://random-words-api.vercel.app/word`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data[0].word);
+        console.log(data[0].word.length);
+        const info = data;
+        /*
   for (let index = 0 ; index< info.word.length; index ++){
 console.log(info.word.length);
 
   }*/
-  
-  });
-
-}
-
-  
+      });
+  };
 
   return (
     <div className="App">
@@ -72,14 +77,15 @@ console.log(info.word.length);
                 <li className="letter">x</li>
               </ul>
             </div>
-            <button onClick={handleClick} >Empezar </button>
-            <button onClick={handleClickIncrement} >Incrementar</button>
+            <button onClick={handleClick}>Empezar </button>
+            <button onClick={handleClickIncrement}>Incrementar</button>
             <form className="form">
               <label className="title" htmlFor="last-letter">
                 Escribe una letra:
               </label>
               <input
-                onKeyUp={handleInput}
+                onChange={handleInput}
+                // value={lastLetter}
                 autoComplete="off"
                 className="form__input"
                 maxLength="1"
@@ -89,7 +95,7 @@ console.log(info.word.length);
               />
             </form>
           </section>
-          <section className={'dummy error-' + numberOfErrors}>
+          <section className={"dummy error-" + numberOfErrors}>
             <span className="error-13 eye"></span>
             <span className="error-12 eye"></span>
             <span className="error-11 line"></span>
