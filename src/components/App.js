@@ -8,23 +8,42 @@ function App() {
     ev.preventDefault();
 
     setNumberOfErrors(numberOfErrors + 1);
-    console.log(numberOfErrors);
+
   };
-  const wordToGuess = [katakroker];
+ 
+  const [word,setWord]= useState("katakroker");
   const [lastLetter, setLastLetter] = useState("");
+  const [userLetters, setUserLetters]= useState (""); 
+
+
+  const renderSolutionLetters =()=>{
+     const wordLetters= word.split('');
+     const htmlArray =wordLetters.map ((eachLetter,index)=> <li key={index}>_</li>)
+     return htmlArray
+  };
 
   const handleInput = (ev) => {
-    const patternSpanish =
-      /^[A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ]$/;
     const letterToCompare = ev.currentTarget.value;
-    if (letterToCompare.match(patternSpanish)) {
-      setLastLetter(ev.currentTarget.value);
-    }
-    if (letterToCompare.find(wordToGuess)) {
-      console.log("está en la palabra");
-    } else {
-      console.log("no está en la palabra");
-    }
+    setLastLetter(ev.currentTarget.value);
+console.log(lastLetter);
+const newUserletters=[];
+setUserLetters([...userLetters, newUserletters]);
+console.log(userLetters);
+  //   const patternSpanish =
+  //     /^[A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ]$/;
+  //   const letterToCompare = ev.currentTarget.value;
+  //   //if (letterToCompare.match(patternSpanish)) {
+  //     setLastLetter(ev.currentTarget.value);
+  //   //}
+    
+  //   //if (letterToCompare.find(word)) {
+  //    // console.log("está en la palabra");
+  //  // } else {
+  //    // console.log("no está en la palabra");
+  //   //}
+  //   const newUserLetters = [];
+  //   setUserLetters ([...userLetters, newUserLetters]);
+  //   console.log(lastLetter);
   };
 
   //funciones que necesitamos 'https://random-words-api.vercel.app/word'
@@ -54,17 +73,9 @@ console.log(info.word.length);
           <section>
             <div className="solution">
               <h2 className="title">Solución:</h2>
+
               <ul className="letters">
-                <li className="letter">k</li>
-                <li className="letter">a</li>
-                <li className="letter"></li>
-                <li className="letter">a</li>
-                <li className="letter">k</li>
-                <li className="letter">r</li>
-                <li className="letter"></li>
-                <li className="letter">k</li>
-                <li className="letter">e</li>
-                <li className="letter">r</li>
+                {renderSolutionLetters()}
               </ul>
             </div>
             <div className="error">
@@ -85,7 +96,7 @@ console.log(info.word.length);
               </label>
               <input
                 onChange={handleInput}
-                // value={lastLetter}
+                 value={lastLetter}
                 autoComplete="off"
                 className="form__input"
                 maxLength="1"
