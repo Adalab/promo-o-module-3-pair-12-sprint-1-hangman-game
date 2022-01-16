@@ -1,49 +1,41 @@
-import "../styles/App.scss";
-import { useState } from "react";
+import '../styles/App.scss';
+import { useState } from 'react';
 
 function App() {
   //Variables de estado
   const [numberOfErrors, setNumberOfErrors] = useState(0);
+  const [word, setWord] = useState('katacroker');
+  const [lastLetter, setLastLetter] = useState('');
+  const [userLetters, setUserLetters] = useState('');
+
+
   const handleClickIncrement = (ev) => {
     ev.preventDefault();
 
     setNumberOfErrors(numberOfErrors + 1);
-
   };
- 
-  const [word,setWord]= useState("katakroker");
-  const [lastLetter, setLastLetter] = useState("");
-  const [userLetters, setUserLetters]= useState (""); 
 
-
-  const renderSolutionLetters =()=>{
-     const wordLetters= word.split('');
-     const htmlArray =wordLetters.map ((eachLetter,index)=> <li key={index}>_</li>)
-     return htmlArray
+  
+  const renderSolutionLetters = () => {
+    const wordLetters = word.split('');
+    const htmlArray = wordLetters.map((eachLetter, index) => (
+      <li className="letter" key={index}>
+        {userLetters.includes(eachLetter) ? eachLetter : ' '}
+      </li>
+    ));
+    return htmlArray;
   };
+
 
   const handleInput = (ev) => {
     const letterToCompare = ev.currentTarget.value;
-    setLastLetter(ev.currentTarget.value);
-console.log(lastLetter);
-const newUserletters=[];
-setUserLetters([...userLetters, newUserletters]);
-console.log(userLetters);
-  //   const patternSpanish =
-  //     /^[A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ]$/;
-  //   const letterToCompare = ev.currentTarget.value;
-  //   //if (letterToCompare.match(patternSpanish)) {
-  //     setLastLetter(ev.currentTarget.value);
-  //   //}
-    
-  //   //if (letterToCompare.find(word)) {
-  //    // console.log("está en la palabra");
-  //  // } else {
-  //    // console.log("no está en la palabra");
-  //   //}
-  //   const newUserLetters = [];
-  //   setUserLetters ([...userLetters, newUserLetters]);
-  //   console.log(lastLetter);
+    const patternSpanish = /^[a-zA-ZáäéëíïóöúüÁÄÉËÍÏÓÖÚÜñÑ]?$/;
+
+    if (letterToCompare.match(patternSpanish)) {
+      setLastLetter(letterToCompare);
+      setUserLetters([...userLetters, letterToCompare]);
+    } else alert('Letra no válida');
+    //setLastLetter('');
   };
 
   //funciones que necesitamos 'https://random-words-api.vercel.app/word'
@@ -63,6 +55,8 @@ console.log(info.word.length);
       });
   };
 
+
+//------------------------------------------------------------------------------
   return (
     <div className="App">
       <div className="page">
@@ -74,9 +68,7 @@ console.log(info.word.length);
             <div className="solution">
               <h2 className="title">Solución:</h2>
 
-              <ul className="letters">
-                {renderSolutionLetters()}
-              </ul>
+              <ul className="letters">{renderSolutionLetters()}</ul>
             </div>
             <div className="error">
               <h2 className="title">Letras falladas:</h2>
@@ -96,7 +88,7 @@ console.log(info.word.length);
               </label>
               <input
                 onChange={handleInput}
-                 value={lastLetter}
+                value={lastLetter}
                 autoComplete="off"
                 className="form__input"
                 maxLength="1"
@@ -106,7 +98,7 @@ console.log(info.word.length);
               />
             </form>
           </section>
-          <section className={"dummy error-" + numberOfErrors}>
+          <section className={'dummy error-' + numberOfErrors}>
             <span className="error-13 eye"></span>
             <span className="error-12 eye"></span>
             <span className="error-11 line"></span>
